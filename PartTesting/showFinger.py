@@ -8,7 +8,7 @@ detector = HandDetector(maxHands=1)
 
 offset = 20
 imgSize = 300
-
+folder = "Data/A"
 while True:
     success, img = cap.read()
     hands, img = detector.findHands(img)
