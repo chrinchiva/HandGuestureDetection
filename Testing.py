@@ -14,7 +14,7 @@ imgSize = 300
 folder = "Data/C"
 counter = 0
 
-labels = ["A", "B", "C"]
+labels = ["0", "1", "2", "3", "4", "5", "ok", "yes"]
 
 while True:
     success, img = cap.read()
@@ -34,12 +34,15 @@ while True:
         if aspectRatio > 1:
             k = imgSize / h
             wCal = math.ceil(k * w)
-            imgResize = cv2.resize(imgCrop, (wCal, imgSize))
-            imgResizeShape = imgResize.shape
-            wGap = math.ceil((imgSize - wCal) / 2)
-            imgWhite[:, wGap:wCal + wGap] = imgResize
-            prediction, index = classifier.getPrediction(imgWhite, draw=False)
-            print(prediction, index)
+            if imgCrop is not None and imgCrop.size != 0:
+                imgResize = cv2.resize(imgCrop, (wCal, imgSize))
+                imgResizeShape = imgResize.shape
+                wGap = math.ceil((imgSize - wCal) / 2)
+                imgWhite[:, wGap:wCal + wGap] = imgResize
+                prediction, index = classifier.getPrediction(imgWhite, draw=False)
+                print(prediction, index)
+            else:
+                print("imgCrop is None or empty.")
 
         else:
             k = imgSize / w
@@ -57,8 +60,10 @@ while True:
                       (x + w+offset, y + h+offset), (255, 0, 255), 4)
 
 
-        cv2.imshow("ImageCrop", imgCrop)
-        cv2.imshow("ImageWhite", imgWhite)
+        #cv2.imshow("ImageCrop", imgCrop)
+        #cv2.imshow("ImageWhite", imgWhite)
 
     cv2.imshow("Image", imgOutput)
-    cv2.waitKey(1)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        print("Program end")
+        break

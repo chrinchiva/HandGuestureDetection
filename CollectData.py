@@ -13,7 +13,7 @@ detector = HandDetector(maxHands=1)
 offset = 20
 imgSize = 300
 
-folder = "Data/C"
+folder = "Data/yes"
 counter = 0
 
 while True:
@@ -55,3 +55,6 @@ while True:
         counter += 1
         cv2.imwrite(f'{folder}/Image_{time.time()}.jpg',imgWhite)
         print(counter)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        print("Program end")
+        break
